@@ -121,7 +121,7 @@ import iconRaw from './my-icon.svg?raw'
 
 ### Component
 
-SVGs can be explicitly imported as Vue components using the ?component suffix:
+SVGs can be explicitly imported as components using the ?component suffix:
 
 It can be specified to use the component type, which defaults to the template component. To use JSX, you can use `component=jsx`.
 
@@ -141,7 +141,7 @@ import IconJsxComponent from './my-icon.svg?component=jsx&svgo=false'
 
 ## Unocss (preset-icons)
 
-unplugin-svgo provides a custom loader for `@unocss/preset-icons`, which makes it easy to optimize icons for use in unocss.
+unplugin-svgo provides a custom loader for `@unocss/preset-icons`, which makes it easy to optimize icons for use in Unocss without the need to load unplugin-svgo.
 
 ```ts
 import Icons from '@unocss/preset-icons'
