@@ -172,7 +172,7 @@ Use:
 
 ## Use with TypeScript
 
-If you use `unplugin-svgo` in Typescript, you need to set the `tsconfig. json`
+If you use `unplugin-svgo` in Typescript, you need to set the `tsconfig.json`
 
 ```json
 {
