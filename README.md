@@ -10,7 +10,7 @@ plugin to load and optimize SVG files as raw string. For the optimization SVGO i
 - 💚 Supports both Vue and React out-of-the-box.
 - ✨ Supports both import components(Vue/React) or svg file.
 - 🦾 Full TypeScript support.
-- 😃 Works perfectly with [unplugin-icons](https://github.com/antfu/unplugin-icons).
+- 😃 Works perfectly with [@unocss/preset-icons](https://unocss.dev/presets/icons) or [unplugin-icons](https://github.com/antfu/unplugin-icons).
 
 ## Installation
 
@@ -143,6 +143,8 @@ import IconJsxComponent from './my-icon.svg?component=jsx&svgo=false'
 ## Unocss (preset-icons)
 
 unplugin-svgo provides a custom loader for `@unocss/preset-icons`, which makes it easy to optimize icons for use in Unocss without the need to load unplugin-svgo.
+
+> If you use unplugin-icons, the FileSystemIconLoader still works on unplugin-icons.
 
 ```ts
 import Icons from '@unocss/preset-icons'
