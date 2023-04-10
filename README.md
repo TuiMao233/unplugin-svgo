@@ -6,6 +6,7 @@ plugin to load and optimize SVG files as raw string. For the optimization SVGO i
 
 ###### Features
 
+- ☕️ Simplify SVG icons with SVGO and automatically add prefixes to avoid icon conflicts.
 - 💚 Supports both Vue and React out-of-the-box.
 - ✨ Supports both import components(Vue/React) or svg file.
 - 🦾 Full TypeScript support.
