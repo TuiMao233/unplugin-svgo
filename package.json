@@ -1,0 +1,100 @@
+{
+  "name": "unplugin-svgo",
+  "version": "0.0.1",
+  "description": "svgo implementation of universal plugins",
+  "author": "hairyf <wwu710632@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/hairyf/unplugin-svgo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hairyf/unplugin-svgo"
+  },
+  "bugs": "https://github.com/hairyf/unplugin-svgo/issues",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.ts",
+      "require": "./dist/nuxt.js",
+      "import": "./dist/nuxt.mjs"
+    },
+    "./resolvers": {
+      "types": "./dist/resolvers.d.ts",
+      "require": "./dist/resolvers.js",
+      "import": "./dist/resolvers.mjs"
+    },
+    "./rollup": {
+      "types": "./dist/rollup.d.ts",
+      "require": "./dist/rollup.js",
+      "import": "./dist/rollup.mjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "require": "./dist/types.js",
+      "import": "./dist/types.mjs"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "require": "./dist/vite.js",
+      "import": "./dist/vite.mjs"
+    },
+    "./webpack": {
+      "types": "./dist/webpack.d.ts",
+      "require": "./dist/webpack.js",
+      "import": "./dist/webpack.mjs"
+    },
+    "./esbuild": {
+      "types": "./dist/esbuild.d.ts",
+      "require": "./dist/esbuild.js",
+      "import": "./dist/esbuild.mjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch src",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp && npm publish",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@iconify/utils": "^2.1.5",
+    "@vue/compiler-sfc": "^3.2.47",
+    "fs-extra": "^11.1.1",
+    "svgo": "^3.0.2",
+    "unplugin": "^1.3.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.38.4",
+    "@iconify/types": "^2.0.0",
+    "@nuxt/kit": "^3.3.3",
+    "@nuxt/schema": "^3.3.3",
+    "@types/fs-extra": "^11.0.1",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.38.0",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4",
+    "vite": "^4.2.1",
+    "vue": "^3.2.47"
+  }
+}
