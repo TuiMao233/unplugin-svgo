@@ -1,6 +1,6 @@
 {
   "name": "unplugin-svgo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "svgo implementation of universal plugins",
   "author": "hairyf <wwu710632@gmail.com>",
   "license": "MIT",
