@@ -3,14 +3,16 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { createUnplugin } from 'unplugin'
 import type { Options, SearchParams } from '../types'
-import { optimizeSVG } from './optimize'
 import { parseQuery } from './utils'
+import { optimizeSVG } from './optimize'
 
 const { compileTemplate } = require('@vue/compiler-sfc')
 
+const suffix = /\.svg/
+
 export default createUnplugin<Options>((options = {}) => {
-  const { optimize: optimizeConfig = {} } = options
-  const suffix = /\.svg/
+  const { optimize = {} } = options
+
   return [
     {
       name: 'unplugin-svgo',
@@ -18,42 +20,64 @@ export default createUnplugin<Options>((options = {}) => {
         if (!suffix.test(id))
           return
 
-        const [filepath, query] = id.split('?')
-        const prefix = path.basename(filepath).replace('.svg', '')
+        const { filepath, params, prefix } = parsePathIds(id)
 
-        const params = parseQuery<SearchParams>(query, {
-          svgo: true,
-        })
+        let svg = await readSvgFile(id, filepath)
 
-        let svg: string
-        try {
-          svg = await fs.readFile(filepath, 'utf-8')
-        }
-        catch (error) {
-          console.warn('\n', `${id} couldn't be loaded by unplugin-svgo, fallback to default loader`)
+        if (!svg)
           return
-        }
 
-        if (optimizeConfig.enable && params.svgo)
-          svg = optimizeSVG(svg, { prefix, ...optimizeConfig })
+        if (optimize.enable && params.svgo)
+          svg = await optimizeSVG(svg, { prefix, ...optimize })
 
         if (params.raw)
-          return `export default ${JSON.stringify(svg)}`
+          return compileRawModule(svg)
 
-        if (params.component === true || params.component === 'template') {
-          const { code } = compileTemplate({
-            id: JSON.stringify(id),
-            source: svg,
-            filename: path,
-            transformAssetUrls: false,
-          })
-          return `${code}\nexport default { render: render }`
-        }
+        if (params.component === true || params.component === 'template')
+          return compileTemplateModule(id, svg, filepath)
 
-        // TODO
         if (params.component === 'jsx')
-          return `export default () => ${svg}`
+          return compileJsxModule(svg)
       },
     },
   ]
 })
+
+function compileTemplateModule(id: string, svg: string, path: string) {
+  const { code } = compileTemplate({
+    id: JSON.stringify(id),
+    source: svg,
+    filename: path,
+    transformAssetUrls: false,
+  })
+  return `${code}\nexport default { render: render }`
+}
+
+function compileRawModule(svg: string) {
+  return `export default ${JSON.stringify(svg)}`
+}
+
+function compileJsxModule(svg: string) {
+  // TODO
+  return `export default () => ${svg}`
+}
+
+function parsePathIds(id: string) {
+  const [filepath, query] = id.split('?')
+  const prefix = path.basename(filepath).replace('.svg', '')
+  const params = parseQuery<SearchParams>(query, {
+    svgo: true,
+  })
+  return { filepath, prefix, params }
+}
+
+async function readSvgFile(id: string, filepath: string) {
+  let svg = ''
+  try {
+    svg = await fs.readFile(filepath, 'utf-8')
+  }
+  catch (error) {
+    console.warn('\n', `${id} couldn't be loaded by unplugin-svgo, fallback to default loader`)
+  }
+  return svg
+}

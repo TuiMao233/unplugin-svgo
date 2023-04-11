@@ -140,6 +140,30 @@ SVGO can be explicitly enable or disabled for one file by adding the `?svgo=[ena
 import IconJsxComponent from './my-icon.svg?component=jsx&svgo=false'
 ```
 
+## Configuration
+
+SVGO has a plugin-based architecture, separate plugins allows various xml svg optimizations. See built-in plugins. SVGO automatically loads configuration from `svgo.config.js|ts|json`. Some general options can be configured via CLI.
+
+```ts
+import { defineConfig } from 'unplugin-svgo'
+import { prefixIds, presetDefault, sortAttrs } from 'unplugin-svgo/plugins'
+
+export default defineConfig({
+  multipass: true, // boolean. false by default
+  datauri: 'enc', // 'base64' (default), 'enc' or 'unenc'.
+  plugins: [
+    // set of built-in plugins enabled by default
+    presetDefault(),
+    // enable built-in plugins by name
+    prefixIds(),
+    // or by expanded notation which allows to configure plugin
+    sortAttrs({
+      xmlnsOrder: 'alphabetical',
+    })
+  ]
+})
+```
+
 ## Unocss (preset-icons)
 
 unplugin-svgo provides a custom loader for [@unocss/preset-icons](https://unocss.dev/presets/icons), which makes it easy to optimize icons for use in Unocss without the need to load unplugin-svgo.
